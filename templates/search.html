@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Search{% endblock%}
+{% block css %}
+	<style type="text/css">
+		li {
+                list-style-type:none;
+		}
+	</style>
+{% endblock %}
+{% block header %}
+{% include "header.html" %}
+{% endblock %}
+{% block page %}
+	<div class="row">
+		<div class="col-md-12">
+	<form action="" method="POST"> {% csrf_token %}
+                <div class="row">
+		<div class=col-md-6>
+	 	<div class="btn-group btn-group-justified">
+	 		<label>{{ form.program_ip.label}}</label>
+	 		{{ form.program_ip}}
+	 	</div>
+		</div>
+		<div class=col-md-6>
+	 	<div class="form-group">
+	 		<label>{{ form.status.label }}</label>
+	 		{{ form.status }}
+	 	</div>
+		</div>
+		</div>
+                <div class="row">
+		<div class=col-md-6>
+	 	<div class="form-group">
+	 		<label>{{ form.project.label }}</label>
+	 		{{ form.project }}
+	 	</div>
+	 	<div class="form-group">
+	 		<label>{{ form.conn_db.label }}</label>
+	 		{{ form.conn_db }}
+	 	</div>
+                </div>
+		<div class=col-md-6>
+	 	<div class="form-group">
+	 		<label>{{ form.program.label }}</label>
+	 		{{ form.program }}
+	 	</div>
+	 	<div class="form-group">
+	 		<label>{{ form.pro_conn.label }}</label>
+	 		{{ form.pro_conn }}
+	 	</div>
+		</div>
+		</div>
+	 	<input type='submit' class="btn btn-primary btn-lg"  value="search">
+	</form>
+	</div>
+</div>
+{% endblock %}

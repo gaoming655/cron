@@ -1,0 +1,27 @@
+<header class="navbar navbar-fixed-top" role="banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="navbar-header">
+                     <a href="/" class="navbar-brand"><img src="/static/bootstrap/img/logo_test.png" style="height: 50px"></a>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" style="margin-bottom:0px;">
+                     <ul class="nav navbar-nav" style="margin-top: 20px;font-size: 18px;">
+                          <li><a href="/cron/">计划任务管理</a></li>
+                          <li><a href="/search/">计划任务查询</a></li>
+                          <li><a href="/history/">操作审计</a></li>
+                     </ul>
+                    <div style="float: right;margin-top: 25px">欢迎:
+                        <a href="#" class="btn btn-xs" style="display: inline-block">
+                            <span class="glyphicon glyphicon-user"></span> {{ user.first_name }}</a>
+                        <a href="{%url "logout"%}" class="btn btn-xs" style="display: inline-block">
+                            <span class="glyphicon glyphicon-off"></span> 退出
+                        </a>
+                </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}help{% endblock %}
+{% block js%}
+<script type="text/javascript" src="/static/boot/js/sco.modal.js"></script>
+{% endblock %}
+{% block content %}
+<div class="container">
+<div class="row row-offcanvas row-offcanvas-right">
+<div class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+          <div class="jumbotron">
+            <h1>计划任务帮助手册</h1>
+            <p>&nbsp&nbspLinux 计划任务使用指南</p>
+          </div>
+          <div class="row">
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>第一段：分钟</h2>
+              <p>取值范围0-59</p>
+              <p>* 每分钟</p>
+              <p>*/10 每10分钟</p>             
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>第二段：小时</h2>
+              <p>取值范围0-23</p>
+              <p>* 每小时</p>
+              <p>*/2 每2小时</p>              
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>第三段：天</h2>
+              <p>取值范围1-31</p>
+              <p>* 每天</p>
+              <p>*/2 每2天</p>             
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>第四段：月</h2>
+              <p>取值范围：1-12</p>
+              <p>* 每月  (常用)</p>
+              <p>*/2 每2个月</p>
+              
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>第五段：周</h2>
+              <p>取值范围：0-6</p>
+              <p>0 为星期日</p>
+              <p>* 每周  (常用)</p>
+              <p>2 每周星期二</p>
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>特殊规则写法</h2>
+              <p>1,3,5  </p>
+            </div><!--/span-->
+          </div><!--/row--> 
+</div>
+<div  class="col-xs-6 col-sm-3 sidebar-offcanvas" >
+<div class="list-group">
+</div>
+占位符
+</div>
+</div>
+</div>
+{% endblock %}

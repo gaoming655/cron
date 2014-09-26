@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}list{% endblock%}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/boot/css/bootstrap-switch.css">
+<link rel="stylesheet" type="text/css" href="/static/boot/css/buttons.css">
+<style type="text/css">
+	h3 {
+		color: #0489B1;
+	}
+</style>
+{% endblock %}
+{% block js %}
+<script type="text/javascript" src="/static/boot/js/bootstrapSwitch.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$(".switch").on('switch-change',function(e,data){
+			var switch_id = this.id ;
+			var  value = data.value;
+			$.post(/add/,
+                            {
+                            ip : '{{ ip }}',
+                            id : switch_id,
+                            of_status : value
+                            },
+                            function(data){
+                            data=JSON.parse(data)
+                            var color_list = ['DarkBlue','Darkorange','FireBrick','DeepPink','Crimson','DarkBlue','Darkorange','FireBrick','DeepPink','Crimson']
+                            var sz_color = Math.floor(Math.random()*10)
+                            if (data.code == "0" ){
+                            $('#'+switch_id+'_status').css({'color':color_list[sz_color],'font-weight':'900'}).text('成功');
+                            }
+                            else {
+                            $('#'+switch_id+'_status').css({'color':color_list[sz_color],'font-weight':'900'}).text('失败');
+                            }
+			}); //
+		});
+	})
+</script>
+{% endblock %}
+{% block header %}
+{% include "header.html" %}
+{% endblock %}
+{% block page %}
+<div class="col-md-4">
+{% if status %}
+<h3>此页为状态为启用列表</h2>
+{% else %}
+<h3>此页为状态为禁用列表</h2>
+{% endif %}
+</div>
+	<table  class="table table-hover table-bordered table-condensed">
+		<thead >
+		<tr>
+			<th>项目</th>
+			<th>用途</th>
+			<th>规则</th>
+			<th>分</th>
+			<th>时</th>
+			<th>天</th>
+			<th>月</th>
+			<th>星期</th>
+			<th>程序连接IP</th>
+			<th>连接库</th>
+			<th>影响范围</th>
+			{% if on_off %}
+			<th>开关</th>
+                        <th>返回状态</th>
+			{% endif %}
+		</tr>
+		</thead>
+		<tbody>
+	{% for i in form %}
+		<tr>
+			<td>
+			{% if on_off %}
+			<a class="button button-rounded button-flat" href="/edit/{{ i.id }}">{{ i.project }}(编辑)</a>
+			{% else %}
+			{{ i.project }}
+			{% endif %}
+			</td>
+			<td>{{ i.usage }}</td>
+			<td>{{ i.program }}</td>
+			<td>{{ i.min }}</td>
+			<td>{{ i.hour }}</td>
+			<td>{{ i.day }}</td>
+			<td>{{ i.month }}</td>
+			<td>{{ i.week }}</td>
+			<td>{{ i.pro_conn }}</td>
+			<td>{{ i.conn_db }} </td>
+			<td>{{ i.influence }} </td>
+			{% if on_off %}
+			<td>
+               <div  id="{{ i.id }}" class="switch switch-small">
+               {% if status %}
+               	<input  type="checkbox" checked=" ">
+               {% else %}
+                <input  type="checkbox">
+               {% endif %}
+            </div>
+			</td>
+            <td>
+	    {% if i.return_status %}
+            <div id="{{ i.id }}_status" style="color:#0000CD">完成</div>
+            {% else %}
+            <div id="{{ i.id }}_status" style="color:#FFA500">失败</div>
+            {% endif %}
+            </td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% endblock %}

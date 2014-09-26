@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% block title %}crontab{% endblock %}
+{% block css %}
+<style type="text/css">
+    	.form-control{
+    		width:500px;
+    	}	
+    	.body{
+    		background-color: #eee;
+    	}
+    	.modal-dialog{
+    		margin-top: 200px;
+    	}
+    	#str {
+    		font-size: 18px;
+    	}
+</style>
+{% endblock %}
+{% block js%}
+<script type="text/javascript">
+	$(document).ready(function(){
+		function convertArray(o) { //将jquery系列化后的值转为name:value的形式。
+        	var v = {};
+        	for (var i in o) {
+            	if (typeof (v[o[i].name]) == 'undefined')
+                	v[o[i].name] = o[i].value;
+            	else
+                	v[o[i].name] += "," + o[i].value;
+        		}
+            return v;
+           }
+        $('#show').click(function(){
+         	var x = convertArray($('form').serializeArray());
+         	$('#str').text(x['min']+' '+x['hour']+' '+x['day']+' '+x['month']+' '+x['week']+' '+x['program']);
+                if (x['project'] == ""){
+                  $(".project").text("项目不能为空").css("color","red");
+                  return false;
+                }else {
+                   $(".project").text("");
+                }
+                if (x['usage'] == ""){
+                  $('.usage').text("用途不能为空").css("color","red");
+                  return false;
+                }else {
+                  $('.usage').text("");
+                }
+                if (x['program'] == ""){
+                  $(".program").text("任务不能为空").css("color","red");
+                  return false;
+                }else {
+                  $('.program').text("");
+                }
+                if (x['pro_conn'] == ""){
+                  $(".pro_conn").text("程序连接IP不能为空").css("color","red");
+                  return false;
+                }else {
+                  $('pro_conn').text("");
+                }
+                if (x['conn_db'] == ""){
+                  $(".conn_db").text("连接数据库选项不能为空").css("color","red");
+                  return false;
+                }else {
+                  $(".conn_db").text("");
+                }
+                if (x['influence'] == ""){
+                  $(".influence").text("影响范围不能为空").css("color","red");
+                  return false;
+                }else {
+                  $(".influence").text("");
+                }
+                if (x['min'] == ""){
+                  $(".min").text("分钟不能为空").css("color","red");
+                  return false;
+		}else {
+                   $(".min").text("");
+                }
+                if (x['hour'] == ""){
+                  $(".hour").text("小时不能为空").css("color","red");
+                  return false;
+                }else {
+                  $(".hour").text("");
+                }
+                if (x['day'] == ""){
+                  $(".day").text("天不能为空").css("color","red");
+                  return false;
+                }else {
+                  $(".day").text("");
+                }
+                if (x['month'] == ""){
+                  $(".month").text("月不能为空").css("color","red");
+                  return false;
+                }else {
+                  $(".month").text("");
+                }
+                if (x['week'] == ""){
+                  $(".week").text("星期不能为空").css("color","red");
+                  return false;
+                }else {
+                  $(".week").text("");
+                }
+         	$('#myModal').modal('show');
+        })
+        $('#addq').click(function(){
+        	var x = convertArray($('form').serializeArray());
+                $('#addq').attr('disabled',"true").text("请等待");
+        	$.post("{% url "cron" %}",
+         	{ 
+         		min:x['min'],
+         		conn_db: x['conn_db'],
+				day: x['day'],
+				hour: x['hour'],
+				influence: x['influence'],
+				month: x['month'],
+				pro_conn: x['pro_conn'],
+				program: x['program'],
+				program_ip: x['program_ip'],
+				project: x['project'],
+				status: "True",
+				usage: x['usage'],
+				week: x['week']
+         	},
+         	function(data,status){
+         		data=JSON.parse(data);
+         		if (data.code == 0){
+                           window.location.href="{% url "cron" %}";
+        		}
+	 		else if (data.code == 1) {
+                        $('#str').text("后端服务器连接超时,请联系管理员"); 
+			}
+         		else {
+         		$('#str').html(data.message['pro_conn_error']+data.message['influence_error']+'</br>'+data.message['conn_db_error']+'</br>'+data.message['project_error']+'</br>'+data.message['usage_error']+'</br>'+data.message['program_error']);
+         		}
+         	})
+        });
+		$("#5min").click(function(){
+			$('#id_min').val("*/5");
+		})
+		$("#10min").click(function(){
+			$('#id_min').val("*/10");
+		})
+		$("#30min").click(function(){
+			$('#id_min').val("*/30");
+		})
+		$("#2hour").click(function(){
+			$("#id_hour").val("*/2");
+		})
+		$("#0_0").click(function(){
+			$("#id_min").val("0");
+			$("#id_hour").val("0");
+		})
+		$("#init").click(function(){
+			$("#id_min").val("*");
+			$("#id_hour").val("*");
+			$("#id_day").val("*");
+			$("#id_month").val("*");
+			$("#id_week").val("*");
+		})
+		$("#hen").hide();
+	})
+</script>
+{% endblock %}
+{% block header %}
+{% include "header.html" %}
+{% endblock %}
+{% block page %}
+<div id="Myform" >
+	<div class="jumbotron">
+  		<h1>Linux 计划任务自助系统</h1>
+  		<p style="color:#2828FF">任务频率默认为每分钟执行一次，也可以自行更改 或者 使用快捷按钮</p>
+  		<input type="button" class="btn btn-primary" value="每5分钟" id="5min">
+  		<input type="button" class="btn btn-primary" value="每10分钟" id="10min">
+  		<input type="button" class="btn btn-primary" value="每30分钟" id="30min">
+  		<input type="button" class="btn btn-primary" value="每2小时" id="2hour">
+  		<input type="button" class="btn btn-primary" value="每天00:00" id="0_0">
+  		<input type="button" class="btn btn-primary" value="恢复默认值" id="init">
+	</div>
+	<form action="" method="POST" class="form-inline"> {% csrf_token %}
+    <table>
+    <tbody><tr><th>{{ form.project.label_tag }}</th><td>{{ form.project }}</td><td class="project"></td></tr>
+	<tr><th>{{ form.usage.label_tag }}</th><td>{{ form.usage }}</td><td class="usage"></td></tr>
+	<tr><th>{{ form.program.label_tag }}</th><td>{{ form.program }}</td><td class="program"></td></tr>
+	<tr><th>{{ form.pro_conn.label_tag }}</th><td>{{ form.pro_conn }}</td><td class="pro_conn"></td></tr>
+	<tr><th>{{ form.program_ip.label_tag }}</th><td>
+	{{ form.program_ip }}*
+	</td></tr>
+	<tr><th>{{ form.conn_db.label_tag }}</th><td>{{ form.conn_db }}</td><td class="conn_db"></td></tr>
+	<tr><th>{{ form.influence.label_tag }}</th><td>{{ form.influence }}</td><td class="influence"></td></tr>
+	<tr><th>{{ form.min.label_tag }} </th><td>{{ form.min }}</td><td class="min"></td></tr>
+	<tr><th>{{ form.hour.label_tag }} </th><td>{{ form.hour }}</td><td class="hour"></td></tr>
+	<tr><th>{{ form.day.label_tag }} </th><td>{{ form.day }}</td><td class="day"></td></tr>
+	<tr><th>{{ form.month.label_tag }} </th><td>{{ form.month }}</td><td class="month"></td></tr>
+	<tr><th>{{ form.week.label_tag }} </th><td>{{ form.week }}</td><td class="week"></td></tr>
+	<tr id="hen">
+		<th>{{ form.status.label_tag }}</th>
+		<td>{{ form.status }}</td>
+	</tr>
+	</ul></td></tr>
+    </tbody>
+    </table>
+    <button type="button" id="show" class="btn btn-primary">提交保存</button>
+
+ <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">请确认规则书写后提交部署</h4>
+      </div>
+      <div class="modal-body">
+      <p id="str"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" id="addq" class="btn btn-primary" >提交部署 </a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+	</form>
+</div>
+{% endblock %}

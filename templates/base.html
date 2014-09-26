@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>乐蜂网.Ops Team</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="/static/bootstrap/css/font-awesome.css" rel="stylesheet" media="screen">
+    <link href="/static/bootstrap/css/alertify.core.css" rel="stylesheet" media="screen">
+    <link href="/static/bootstrap/css/alertify.default.css" rel="stylesheet" media="screen">
+    <link href="/static/bootstrap/css/alertify.bootstrap.css" rel="stylesheet" media="screen">
+    <link href="/static/bootstrap/css/jquery-ui.css" rel="stylesheet" media="screen">
+    <link href="/static/bootstrap/css/jquery-ui-timepicker-addon.css" rel="stylesheet" media="screen">
+    <script src="/static/bootstrap/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/ajax.js"></script>
+    <script src="/static/bootstrap/js/jquery-migrate-1.2.1.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            padding-top: 80px;
+        }
+        .navbar-nav > li >a {
+            padding: 5px 10px;
+            color:#666699;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+        }
+        .navbar-nav > li.active > a,
+        .navbar-nav > li.active > a:hover,
+        .navbar-nav > li.active > a:focus {
+          color: #0066CC;
+          cursor: default;
+          border-color: #46b8da;
+          border-bottom-color: transparent;
+          padding: 5px 10px;
+        }
+        header{
+            background: url(/static/bootstrap/img/header.jpg);
+            position: relative;
+            z-index: 9;
+        }
+        .navbar-brand {
+            padding: 5px 5px;
+        }
+    </style>
+{% block css %}{% endblock %}
+{% block js %}{% endblock %}
+</head>
+<body>
+{% block header %} {% endblock %}
+<div class="container">
+{% block page %} {% endblock %}
+</div>
+{% block footer %} {% endblock %}
+</body>
+</html>

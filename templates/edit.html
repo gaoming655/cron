@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}crontab{% endblock %}
+{% block css %}
+<style type="text/css">
+    	.form-control{
+    		width:500px;
+    	}	
+    	.body{
+    		background-color: #eee;
+    	}
+		.jumbotron {
+			background-color: #D8D8EB;
+		}
+</style>
+{% endblock %}
+{% block js%}
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$("#5min").click(function(){
+			$('#id_min').val("*/5");
+		})
+		$("#10min").click(function(){
+			$('#id_min').val("*/10");
+		})
+		$("#30min").click(function(){
+			$('#id_min').val("*/30");
+		})
+		$("#2hour").click(function(){
+			$("#id_hour").val("*/2");
+		})
+		$("#0_0").click(function(){
+			$("#id_min").val("0");
+			$("#id_hour").val("0");
+		})
+		$("#init").click(function(){
+			$("#id_min").val("*");
+			$("#id_hour").val("*");
+			$("#id_day").val("*");
+			$("#id_month").val("*");
+			$("#id_week").val("*");
+		})
+		$("#hen").hide();
+	})
+</script>
+{% endblock %}
+{% block header %}
+{% include "header.html" %}
+{% endblock %}
+{% block page %}
+<div class="jumbotron">
+	<h1>计划任务编辑页面</h1>
+	<input type="button" class="btn btn-primary" value="每5分钟" id="5min">
+	<input type="button" class="btn btn-primary" value="每10分钟" id="10min">
+	<input type="button" class="btn btn-primary" value="每30分钟" id="30min">
+	<input type="button" class="btn btn-primary" value="每2小时" id="2hour">
+	<input type="button" class="btn btn-primary" value="每天00:00" id="0_0">
+	<input type="button" class="btn btn-primary" value="恢复默认值" id="init">
+	</div>
+	<form action=" " method="POST" class="form-inline"> {% csrf_token %}
+    <table>
+    <tbody><tr><th>{{ form.project.label_tag }}</th><td>{{ form.project }}</td></tr>
+	<tr><th>{{ form.usage.label_tag }}</th><td>{{ form.usage }}</td></tr>
+	<tr><th>{{ form.program.label_tag }}</th><td>{{ form.program }}</td></tr>
+	<tr><th>{{ form.pro_conn.label_tag }}</th><td>{{ form.pro_conn }}</td></tr>
+	<tr><th>{{ form.program_ip.label_tag }}</th><td>
+	{{ form.program_ip }}
+	</td></tr>
+	<tr><th>{{ form.conn_db.label_tag }}</th><td>{{ form.conn_db }}</td></tr>
+	<tr><th>{{ form.influence.label_tag }}</th><td>{{ form.influence }}</td></tr>
+	<tr><th>{{ form.min.label_tag }} </th><td>{{ form.min }}</td></tr>
+	<tr><th>{{ form.hour.label_tag }} </th><td>{{ form.hour }}</td></tr>
+	<tr><th>{{ form.day.label_tag }} </th><td>{{ form.day }}</td></tr>
+	<tr><th>{{ form.month.label_tag }} </th><td>{{ form.month }}</td></tr>
+	<tr><th>{{ form.week.label_tag }} </th><td>{{ form.week }}</td></tr>
+	<tr id="hen">
+		<th>{{ form.status.label_tag }}</th>
+		<td>{{ form.status }}</td>
+	</tr>
+	</ul></td></tr>
+    </tbody>
+    </table>
+    <input id="show" type="submit" class="btn btn-primary" value="提交保存">
+	</form>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}history{% endblock%}
+{% block css %}
+<style type="text/css">
+	.off{
+	color:red;
+}
+	.on{
+        color:green;
+}
+        .edit{
+        color:blue;
+}
+        .create{
+        color:	#F75000;
+}
+</style>
+{% endblock %}
+{% block header %}
+{% include "header.html" %}
+{% endblock %}
+{% block page %}
+<div class="container">
+	<table class="table table-hover table-bordered table-condensed">
+            <thead >
+                 <tr>
+                 <th>操作</th>
+                 <th>更改时间</th>
+                 <th>用户</th>
+                 <th>项目</th>
+                 <th>用途</th>
+                 <th>规则</th>
+                 <th>分</th>
+                 <th>时</th>
+                 <th>天</th>
+                 <th>月</th>
+                 <th>星期</th>
+                 <th>程序连接IP</th>
+                 <th>主机IP</th>
+                 <th>连接库</th>
+                 <th>影响范围</th>
+                 <th>状态</th>
+                 </tr>
+            </thead>
+            <tbody>
+            {% for i in forms %}
+                 <tr>
+                 {% ifequal i.history_type "~" %}
+                 <td class="edit">编辑</td>
+                 {% else %}
+                 <td class="create">创建</td>
+                 {% endifequal  %}
+                 <td>{{ i.history_date }}</td>
+                 <td>{{ i.history_user.username }}</td>
+                 <td>{{ i.project }}</td>
+                 <td>{{ i.usage }}</td>
+                 <td>{{ i.program }}</td>
+                 <td>{{ i.min }}</td>
+                 <td>{{ i.hour }}</td>
+                 <td>{{ i.day }}</td>
+                 <td>{{ i.month }}</td>
+                 <td>{{ i.week }}</td>
+                 <td>{{ i.pro_conn }}</td>
+                 <td>{{ i.history_object.program_ip.host_ip}}</td>
+                 <td>{{ i.conn_db }} </td>
+                 <td>{{ i.influence }} </td>
+                 {% if i.status %}
+                 <td class="on">启用</td>
+                 {% else %}
+                 <td class="off">禁用</td>
+                 {% endif %}
+                 </tr>
+            {% endfor %}
+            </tbody>
+     </table>
+{% endblock %}
